@@ -4,7 +4,15 @@ import os
 filepath = "./credentials.json"
 
 
-def check_email(email):
+def check_email(email:str)->None:
+    """checks whether the entered email is correct or not. The email should contai only one '@' and should either end with 'gmail.com' or 'hotmail.com' or 'college_name.edu.np'
+
+    Args:
+        email (str):email through which the user can register or login into the system
+
+    Returns:
+        _type_: None
+    """
     split_email_by_dot = email.split(".")
     split_email_by_at = email.split("@")
 
@@ -30,10 +38,14 @@ def check_email(email):
             raise ValueError("Invalid email.")
     except Exception as e:
         print(f"Error: {e}\nPlease try again.")
-        return "Failure"
 
 
-def login():
+def login()->None:
+    """checks whether the entered credentials are valid or not
+
+    Returns:
+        _type_: None
+    """
     while True:
         i = 0
         success = "No"
@@ -56,11 +68,7 @@ def login():
                                 raise ValueError("Invalid email or password.")
                             else:
                                 os.system("cls" if os.name == "nt" else "clear")
-                                print("Login successful.")
-                                print(
-                                    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                                    * 2
-                                )
+                                print("Login successful...")
                                 print(f"Welcome {database[i]['name']}!!!")
                                 success = "Yes"
                                 break
@@ -76,7 +84,13 @@ def login():
         break
 
 
-def register():
+def register()->None:
+    """checks whether the entered credentials are correct or not while registering
+     
+     Returns:
+        _type_: None
+
+    """
     while True:
         email = input("Enter a valid email: ")
         if check_email(email) == "Failure":
