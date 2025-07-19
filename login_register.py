@@ -4,14 +4,14 @@ import os
 filepath = "./credentials.json"
 
 
-def check_email(email:str)->None:
+def check_email(email:str)->str:
     """checks whether the entered email is correct or not. The email should contai only one '@' and should either end with 'gmail.com' or 'hotmail.com' or 'college_name.edu.np'
 
     Args:
         email (str):email through which the user can register or login into the system
 
     Returns:
-        _type_: None
+        _type_: str in case of wrong email
     """
     split_email_by_dot = email.split(".")
     split_email_by_at = email.split("@")
@@ -38,6 +38,7 @@ def check_email(email:str)->None:
             raise ValueError("Invalid email.")
     except Exception as e:
         print(f"Error: {e}\nPlease try again.")
+        return "Failure"
 
 
 def login()->None:
@@ -88,7 +89,7 @@ def register()->None:
     """checks whether the entered credentials are correct or not while registering
      
      Returns:
-        _type_: None
+        _type_: none
 
     """
     while True:
