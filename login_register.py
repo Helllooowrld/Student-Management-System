@@ -58,7 +58,7 @@ def login():
                                 os.system("cls" if os.name == "nt" else "clear")
                                 print("Login successful.")
                                 print(
-                                    "--------------------------------------------------------------------------------------"
+                                    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
                                     * 2
                                 )
                                 print(f"Welcome {database[i]['name']}!!!")
