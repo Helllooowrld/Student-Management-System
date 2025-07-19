@@ -8,8 +8,8 @@ class Student:
     """class for student object"""
 
     def __init__(self, name, id_no):
-        self.__name = name
-        self.__id_no = id_no
+        self.__name = None
+        self.__id_no = None
 
     def add_students(self) -> None:
         """adds student to the database
@@ -35,15 +35,15 @@ class Student:
                 for key, value in data.items():
                     if key == "id_no" and value == self.__id_no:
                         raise ValueError("Non-unique Id no")
+
+            student_dict["id_no"] = self.__id_no
+            student_dict["name"] = self.__name
+            imported_data.append(student_dict)
+            with open(filepath, "w") as file:
+                json.dump(imported_data, file)
+            print("Student successfully added to the database.")
         except Exception as e:
             print(f"Error: {e}. Please try again with a unique Id no.")
-
-        student_dict["id_no"] = self.__id_no
-        student_dict["name"] = self.__name
-        imported_data.append(student_dict)
-        with open(filepath, "w") as file:
-            json.dump(imported_data, file)
-        print("Student successfully added to the database.")
 
     def delete_student(self) -> None:
         """deletes the student database stored in a JSON file
@@ -51,10 +51,13 @@ class Student:
         Returns:
         _type_: None
         """
-        delete_id = int(
-            input("Enter the Id no of the student that you want to delete: ")
-        )
-
+        try:
+            delete_id = int(
+                input("Enter the Id no of the student that you want to delete: ")
+            )
+        except Exception as e:
+            print(f"Error: {e}. Enter valid Id no.")
+            return
         with open(filepath, "r") as file:
             imported_data = json.load(file)
             print(imported_data[0])
@@ -85,9 +88,13 @@ class Student:
         Returns:
         _type_: None
         """
-        edit_id = int(
+        success=False
+        try:
+            edit_id = int(
             input("Enter the Id no of the student whose record you want to add/edit: ")
-        )
+            )
+        except Exception as e:
+            print(f"Error: {e}")
         with open(filepath, "r") as file:
             imported_data = json.load(file)
         edit_field = None
@@ -103,11 +110,13 @@ class Student:
                             self.__name = input("Enter new full name: ")
                             data["name"] = self.__name
                             print(f"{edit_field} successfully edited.")
+                            success=True
 
                         elif edit_field == "Id":
                             self.__id_no = int(input("Enter new Id: "))
                             data["id_no"] = self.__id_no
                             print(f"{edit_field} successfully edited.")
+                            success=True
 
                         elif edit_field == "Marks" or add_field == "Marks":
                             edit_field = add_field
@@ -115,18 +124,21 @@ class Student:
                             obtained_marks = int(input("Enter the obtained marks: "))
                             data["marks"][subject] = obtained_marks
                             print(f"{edit_field} successfully edited.")
-
+                            success=True
                         elif edit_field == "Attendance" or add_field == "Attendance":
                             edit_field = add_field
                             attendance = float(input("Enter the attendance percent: "))
                             data["attendance_percent"] = attendance
                             print(f"{edit_field} successfully edited.")
+                            success=True
 
                         else:
                             raise ValueError("Incorrect field")
+                    if not success:
+                        raise ValueError("Incorrect Id")
 
         except Exception as e:
-            print(f"Error:{e}. Please try again with correct field.")
+            print(f"Error: {e}. Please try again with correct one.")
 
         with open(filepath, "w") as file:
             json.dump(imported_data, file)
@@ -214,10 +226,12 @@ class Student:
         result = []
         if choice == "name":
             result = self.search_by_name()
-        if choice == "id":
+        elif choice == "id":
             result = self.search_by_id()
-        if choice == "div":
+        elif choice == "div":
             result = self.search_by_div()
+        else:
+            print("Incorrect input.")
         return result
 
     def assign_grades(self)-> None:
@@ -268,27 +282,26 @@ class Student:
           _type_: None
         """
 
-        filename = input("Enter filename: ")
-        filename = filename + ".json"
+        filename = input("Enter filename: ").split('.')
+        filename_proccesed = filename[0]+ ".json"
         choose = input(
             "Do you want to export on the basis of grades obtained by the students?(Y/N): "
         ).capitalize()
 
         if choose == "Y":
             result = self.search_by_div()
-            with open(filename, "w") as file:
+            with open(filename_proccesed, "w") as file:
                 json.dump(result, file)
         elif choose == "N":
             with open(filepath, "r") as file:
                 imported_data = json.load(file)
-            with open(filename, "w") as file:
+            with open(filename_proccesed, "w") as file:
                 json.dump(imported_data, file)
-        print(f"Data succesfully exported to {filename}.")
+        print(f"Data succesfully exported to {filename_proccesed}.")
 
 
 if __name__ == "__main__":
-    student1 = Student("Aayus Shrestha", 2322)
-    # student2= Student("Aayusha Shrestha", 12343)
+    student1 = Student("example", 2322)
     success = student1.add_students()
     print(success)
     if success:

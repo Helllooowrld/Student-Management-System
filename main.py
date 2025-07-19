@@ -58,8 +58,12 @@ while access:
     student = Student(None, None)
     if choice == 1:
         name = input("Enter the full name of the student: ")
-        id_no = int(input("Enter the Id no of the student: "))
-        student = Student(name, id_no)
+        try:
+            id_no = int(input("Enter the Id no of the student: "))
+            student = Student(name, id_no)
+        except Exception as e:
+            print(f"Error: {e}.")
+            continue
         student.add_students()
     elif choice == 2:
         student.delete_student()
