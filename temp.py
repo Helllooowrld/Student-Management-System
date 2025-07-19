@@ -1,0 +1,2 @@
+list=[{"email": "sthaayu@gmail.com", "password": "dd"}, {"email": "sthaay@gmail.com", "password": "sthaay"}, {"email": "sthaayu@gmail.com", "password": "aayu"}, {"email": "sthaayu3@gmail.com", "password": "aa"}]
+print(list[1]["password"])
