@@ -287,8 +287,8 @@ class Student:
 
 
 if __name__ == "__main__":
-    student1 = Student("Aayus Shrestha", 2322)
-    # student2= Student("Aayusha Shrestha", 12343)
+    student1 = Student("example", 2322)
+
     success = student1.add_students()
     print(success)
     if success:
